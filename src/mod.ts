@@ -1,11 +1,10 @@
 import { copy } from "@std/fs";
-import { join } from "@std/path";
 
-type Command = {
+interface Command {
   base: string;
   options: string[];
   exec: () => Promise<void>;
-};
+}
 
 const initCommand: Command = {
   base: "init",
@@ -14,8 +13,6 @@ const initCommand: Command = {
     console.log("Initating a project", Deno.cwd());
 
     await copy("../static/init/", Deno.cwd(), { overwrite: true });
-
-    new Deno.Command("deno add jsr:@kuusi/kuusi");
   },
 };
 
