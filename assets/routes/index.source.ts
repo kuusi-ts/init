@@ -1,12 +1,10 @@
-import { Route } from "@kuusi/kuusi";
+import { WebSource } from "@kuusi/kuusi";
 
-export const route = new Route({
-  GET: (req, patternResult) => {
-    const nummeri = patternResult.pathname.groups.nummeri;
-
+const route = new WebSource({
+  GET: () => {
     return new Response(
       JSON.stringify({
-        nummeri,
+        message: "Tervetuloa Kuusella!",
       }),
       {
         status: 200,
@@ -17,3 +15,5 @@ export const route = new Route({
     );
   },
 });
+
+export default route;

@@ -1,23 +1,16 @@
-import { copy } from "@std/fs";
+import { parseArgs } from "@std/cli";
+import { type InitFlags, initProject } from "./init.ts";
 
-interface Command {
-  base: string;
-  options: string[];
-  exec: () => Promise<void> | void;
-}
-
-const commands: Command[] = [{
-  base: "init",
-  options: [],
-  exec: async () => {
-    console.log(`Initating a project at ${Deno.cwd()}`);
-
-    await copy("../static/init/", Deno.cwd(), { overwrite: true });
+const flags: InitFlags = parseArgs(Deno.args, {
+  boolean: ["help"],
+  default: {},
+  alias: {
+    help: "h",
   },
-}];
+});
 
-console.log(Deno.args);
-
-for (const command of commands) {
-  if (Deno.args[0] === command.base) command.exec();
+try {
+  initProject(flags);
+} catch (err) {
+  throw err;
 }
